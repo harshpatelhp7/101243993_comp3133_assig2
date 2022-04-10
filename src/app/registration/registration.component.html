@@ -87,6 +87,22 @@
       required
       [(ngModel)]="existuser.password"
     />
+    <p>
+      <input
+        type="radio"
+        value="admin"
+        name="type"
+        [(ngModel)]="existuser.type"
+      />
+      admin
+      <input
+        type="radio"
+        value="customer"
+        name="type"
+        [(ngModel)]="existuser.type"
+      />
+      customer
+    </p>
     <button style="margin-top: 1vh" class="btn btn-success" type="submit">
       Login
     </button>

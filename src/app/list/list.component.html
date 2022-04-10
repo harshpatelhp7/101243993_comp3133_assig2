@@ -1,8 +1,166 @@
-<div class="listComp">
+<div class="listComp" *ngIf="displayLists">
+  <div class="btns">
+    <button class="logout" mat-raised-button color="warn" (click)="logout()">
+      Logout
+    </button>
+    <button
+      class="createBtn"
+      mat-raised-button
+      color="accent"
+      (click)="createListingForAdmins()"
+    >
+      Add Listing
+    </button>
+  </div>
   <h1>Welcome {{ user["getUser"].username }}</h1>
 
-  <h2>Your Listings</h2>
-  <mat-list *ngFor="let listing of user['getUser'].createdListings">
-    <mat-list-item>{{ listing.listing_title }}</mat-list-item>
-  </mat-list>
+  <h2>Listings Available</h2>
+
+  <table mat-table class="mat-elevation-z8">
+    <thead>
+      <tr>
+        <th mat-sort-header sortActionDescription="Sort by name">Title</th>
+        <th>Description</th>
+        <th>City</th>
+        <th>Price</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let listing of listing_data['listings']">
+      <tr key="listing._id">
+        <td>{{ listing.listing_title }}</td>
+        <td>{{ listing.description }}</td>
+        <td>{{ listing.city }}</td>
+        <td>{{ listing.price }}</td>
+        <td>{{ listing.email }}</td>
+        <td className="actions">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="bookListing(listing._id)"
+          >
+            Book Listing
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="bookingInput" *ngIf="displayBookinInput">
+  <h1>Select Start And End date for your booking</h1>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    placeholder="Start Date"
+    [formControl]="booking_start"
+  />
+
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+  <input
+    matInput
+    [matDatepicker]="picker2"
+    placeholder="End Date"
+    [formControl]="booking_end"
+  />
+
+  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+  <mat-datepicker #picker2></mat-datepicker>
+  <button mat-raised-button color="primary" (click)="bookListingInReal()">
+    Book Listing
+  </button>
+  <button
+    style="margin-top: 1vh"
+    mat-raised-button
+    color="warn"
+    (click)="goBack()"
+  >
+    Back
+  </button>
+</div>
+
+<div *ngIf="showAddListing">
+  <h1>Create New Listing</h1>
+  <form
+    #listingForm="ngForm"
+    (ngSubmit)="onSubmitListingForm(listingForm.value)"
+  >
+    <input
+      id="listing_title"
+      name="listing_title"
+      placeholder="Title"
+      type="text"
+      required
+      [(ngModel)]="newListing.listing_title"
+    />
+    <input
+      id="description"
+      name="description"
+      placeholder="description"
+      type="description"
+      required
+      [(ngModel)]="newListing.description"
+    />
+    <input
+      id="street"
+      name="street"
+      placeholder="street"
+      type="street"
+      required
+      [(ngModel)]="newListing.street"
+    />
+
+    <input
+      id="city"
+      name="city"
+      placeholder="city"
+      type="city"
+      required
+      [(ngModel)]="newListing.city"
+    />
+    <input
+      id="postal_code"
+      name="postal_code"
+      placeholder="postal code"
+      type="postal_code"
+      required
+      [(ngModel)]="newListing.postal_code"
+    />
+
+    <input
+      id="price"
+      name="price"
+      placeholder="price"
+      type="number"
+      required
+      [(ngModel)]="newListing.price"
+    />
+    <input
+      id="email"
+      name="email"
+      placeholder="email"
+      type="email"
+      required
+      [(ngModel)]="newListing.email"
+    />
+
+    <button
+      style="margin-top: 1vh"
+      mat-raised-button
+      color="accent"
+      type="submit"
+    >
+      Add Listing
+    </button>
+    <button
+      style="margin-top: 1vh"
+      mat-raised-button
+      color="warn"
+      (click)="goBack()"
+    >
+      Back
+    </button>
+  </form>
 </div>

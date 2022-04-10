@@ -17,10 +17,10 @@ export class RegistrationComponent implements OnInit {
   existuser = {
     username: '',
     password: '',
+    type: 'customer',
   };
   loggedUser: any;
-
-
+  value: any;
 
   private CREATE_USER = gql`
     mutation createUser($userInput: UserInput) {
@@ -41,7 +41,6 @@ export class RegistrationComponent implements OnInit {
   `;
 
   constructor(private apolloClient: Apollo, private router: Router) {
-
     this.user = {
       firstname: '',
       lastname: '',
@@ -51,8 +50,6 @@ export class RegistrationComponent implements OnInit {
       type: 'customer',
     };
   }
-
-
 
   onSubmitForm(userData: any) {
     try {
@@ -83,6 +80,7 @@ export class RegistrationComponent implements OnInit {
         })
         .valueChanges.subscribe((res) => {
           this.loggedUser = res.data;
+
           this.router.navigate([`/list/${this.loggedUser['login'].userId}`]);
         });
     } catch (err) {

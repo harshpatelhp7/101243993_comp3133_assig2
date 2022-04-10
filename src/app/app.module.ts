@@ -14,6 +14,7 @@ import { ListComponent } from './list/list.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [AppComponent, ListComponent, RegistrationComponent],
@@ -21,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
     BrowserModule,
     AppRoutingModule,
     ApolloModule,
+    MatDatepickerModule,
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
