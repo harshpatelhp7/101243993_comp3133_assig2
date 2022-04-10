@@ -7,10 +7,29 @@ import { InMemoryCache } from '@apollo/client/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ListComponent } from './list/list.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, ApolloModule, HttpClientModule, BrowserAnimationsModule],
+  declarations: [AppComponent, ListComponent, RegistrationComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ApolloModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatListModule,
+  ],
   providers: [
     {
       provide: APOLLO_OPTIONS,

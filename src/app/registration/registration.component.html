@@ -1,0 +1,97 @@
+<h1>{{ title }}</h1>
+<h2>Registration Page</h2>
+<div class="landingPage" *ngIf="displayReg">
+  <form #userForm="ngForm" (ngSubmit)="onSubmitForm(userForm.value)">
+    <input
+      id="username"
+      name="username"
+      placeholder="Username"
+      type="text"
+      required
+      [(ngModel)]="user.username"
+    />
+    <input
+      id="firstname"
+      name="firstname"
+      placeholder="firstname"
+      type="firstname"
+      required
+      [(ngModel)]="user.firstname"
+    />
+    <input
+      id="lastname"
+      name="lastname"
+      placeholder="lastname"
+      type="lastname"
+      required
+      [(ngModel)]="user.lastname"
+    />
+
+    <input
+      id="email"
+      name="email"
+      placeholder="email"
+      type="email"
+      required
+      [(ngModel)]="user.email"
+    />
+    <input
+      id="password"
+      name="password"
+      placeholder="Password"
+      type="password"
+      required
+      [(ngModel)]="user.password"
+    />
+
+    <p>
+      <input type="radio" value="admin" name="type" [(ngModel)]="user.type" />
+      admin
+      <input
+        type="radio"
+        value="customer"
+        name="type"
+        [(ngModel)]="user.type"
+      />
+      customer
+    </p>
+
+    <button style="margin-top: 1vh" class="btn btn-success" type="submit">
+      Register
+    </button>
+    <button (click)="showLogin()" mat-raised-button color="primary">
+      Existing User?
+    </button>
+  </form>
+</div>
+
+<form
+  *ngIf="displayLogin"
+  #userLoginForm="ngForm"
+  (ngSubmit)="onSubmitLoginForm(userLoginForm.value)"
+>
+  <div class="landingPage" *ngIf="displayLogin">
+    <input
+      id="username"
+      name="username"
+      placeholder="Username"
+      type="text"
+      required
+      [(ngModel)]="existuser.username"
+    />
+    <input
+      id="password"
+      name="password"
+      placeholder="Password"
+      type="password"
+      required
+      [(ngModel)]="existuser.password"
+    />
+    <button style="margin-top: 1vh" class="btn btn-success" type="submit">
+      Login
+    </button>
+    <button (click)="showReg()" mat-raised-button color="primary">
+      New User?
+    </button>
+  </div>
+</form>

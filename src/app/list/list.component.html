@@ -1,0 +1,8 @@
+<div class="listComp">
+  <h1>Welcome {{ user["getUser"].username }}</h1>
+
+  <h2>Your Listings</h2>
+  <mat-list *ngFor="let listing of user['getUser'].createdListings">
+    <mat-list-item>{{ listing.listing_title }}</mat-list-item>
+  </mat-list>
+</div>
