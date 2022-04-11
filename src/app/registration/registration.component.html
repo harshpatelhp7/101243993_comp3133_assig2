@@ -1,7 +1,8 @@
 <h1>{{ title }}</h1>
-<h2>Registration Page</h2>
+
 <div class="landingPage" *ngIf="displayReg">
   <form #userForm="ngForm" (ngSubmit)="onSubmitForm(userForm.value)">
+    <h2>Registration Page</h2>
     <input
       id="username"
       name="username"
@@ -59,7 +60,12 @@
     <button style="margin-top: 1vh" class="btn btn-success" type="submit">
       Register
     </button>
-    <button (click)="showLogin()" mat-raised-button color="primary">
+    <button
+      style="margin-top: 1vh"
+      (click)="showLogin()"
+      mat-raised-button
+      color="primary"
+    >
       Existing User?
     </button>
   </form>
@@ -71,6 +77,7 @@
   (ngSubmit)="onSubmitLoginForm(userLoginForm.value)"
 >
   <div class="landingPage" *ngIf="displayLogin">
+    <h2>Login Page</h2>
     <input
       id="username"
       name="username"
@@ -106,7 +113,12 @@
     <button style="margin-top: 1vh" class="btn btn-success" type="submit">
       Login
     </button>
-    <button (click)="showReg()" mat-raised-button color="primary">
+    <button
+      style="margin-top: 1vh"
+      (click)="showReg()"
+      mat-raised-button
+      color="primary"
+    >
       New User?
     </button>
   </div>

@@ -20,7 +20,11 @@ export class ListComponent implements OnInit {
   booking_start = new FormControl();
   booking_end = new FormControl();
   showAddListing = false;
+  displayBookedListingComp = false;
   newListing!: Listing;
+  bookedListings: any;
+  displayYourListings = false;
+  type: boolean | undefined;
 
   private GET_LISTINGS = gql`
     {
@@ -34,6 +38,38 @@ export class ListComponent implements OnInit {
       }
     }
   `;
+
+  private GET_BOOKINGS = gql`
+    {
+      bookings {
+        _id
+        listing_id {
+          listing_title
+          price
+        }
+        booking_start
+        booking_end
+        username {
+          username
+          firstname
+          email
+        }
+      }
+    }
+  `;
+
+  private CREATE_LISTING = gql`
+    mutation createListing($listingInput: ListingInput) {
+      createListing(listingInput: $listingInput) {
+        _id
+        listing_title
+        username {
+          username
+        }
+      }
+    }
+  `;
+
   private GET_USER_INFO = gql`
     query getUser($userId: ID!) {
       getUser(userId: $userId) {
@@ -45,6 +81,10 @@ export class ListComponent implements OnInit {
         type
         createdListings {
           listing_title
+          city
+          description
+          price
+          email
         }
       }
     }
@@ -90,16 +130,31 @@ export class ListComponent implements OnInit {
       })
       .valueChanges.subscribe((res) => {
         this.user = res.data;
+        if (this.user['getUser'].type === 'admin') {
+          this.type = true;
+        } else {
+          this.type = false;
+        }
         console.log(this.user);
+      });
+
+    this.apolloClient
+      .watchQuery({
+        query: this.GET_BOOKINGS,
+      })
+      .valueChanges.subscribe((res) => {
+        console.log(res.data);
+        this.bookedListings = res.data as object;
       });
   }
 
   getListings() {
     this.apolloClient
-      .watchQuery({ query: this.GET_LISTINGS })
+      .watchQuery({
+        query: this.GET_LISTINGS,
+      })
       .valueChanges.subscribe((response) => {
         this.listing_data = response.data as object;
-        console.log(this.listing_data);
       });
   }
 
@@ -159,14 +214,79 @@ export class ListComponent implements OnInit {
     }
   }
 
-  onSubmitListingForm(newListingData: any) {
-    console.log(newListingData);
+  showYourListings() {
+    this.displayYourListings = true;
+    this.displayLists = false;
+  }
+
+  refresh() {
+    this.apolloClient
+      .watchQuery({
+        query: this.GET_LISTINGS,
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.subscribe((response) => {
+        this.listing_data = response.data as object;
+      });
+    this.apolloClient
+      .watchQuery({
+        query: this.GET_BOOKINGS,
+        fetchPolicy: 'cache-and-network',
+      })
+      .valueChanges.subscribe((res) => {
+        console.log(res.data);
+        this.bookedListings = res.data as object;
+      });
+
+    this.apolloClient
+      .watchQuery({
+        query: this.GET_USER_INFO,
+        fetchPolicy: 'cache-and-network',
+        variables: { userId: this.userID },
+      })
+      .valueChanges.subscribe((res) => {
+        this.user = res.data;
+        if (this.user['getUser'].type === 'admin') {
+          this.type = true;
+        } else {
+          this.type = false;
+        }
+        console.log(this.user);
+      });
+  }
+
+  onSubmitListingForm() {
+    try {
+      this.apolloClient
+        .mutate({
+          mutation: this.CREATE_LISTING,
+          variables: {
+            listingInput: this.newListing,
+          },
+        })
+        .subscribe((res) => {
+          console.log(res);
+        });
+      window.alert('New Listing Added');
+
+      this.showAddListing = false;
+      this.displayLists = true;
+    } catch (err) {
+      window.alert('something went wrong. Try again');
+    }
+  }
+
+  showBookings() {
+    this.displayBookedListingComp = true;
+    this.displayLists = false;
   }
 
   goBack() {
     this.displayBookinInput = false;
     this.displayLists = true;
     this.showAddListing = false;
+    this.displayBookedListingComp = false;
+    this.displayYourListings = false;
   }
 
   logout() {

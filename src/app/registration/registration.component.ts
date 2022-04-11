@@ -61,7 +61,8 @@ export class RegistrationComponent implements OnInit {
           },
         })
         .subscribe((res) => {
-          this.router.navigate([`/list/${this.user.username}`]);
+          this.displayLogin = true;
+          this.displayReg = false;
         });
     } catch (error) {
       window.alert(error);

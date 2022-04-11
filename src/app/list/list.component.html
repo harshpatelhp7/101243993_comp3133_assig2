@@ -1,25 +1,50 @@
 <div class="listComp" *ngIf="displayLists">
   <div class="btns">
-    <button class="logout" mat-raised-button color="warn" (click)="logout()">
+    <button
+      style="height: 7vh"
+      class="logout"
+      mat-raised-button
+      color="warn"
+      (click)="logout()"
+    >
       Logout
     </button>
-    <button
-      class="createBtn"
-      mat-raised-button
-      color="accent"
-      (click)="createListingForAdmins()"
-    >
-      Add Listing
+
+    <div *ngIf="type">
+      <button
+        style="margin-left: 4vw"
+        class="createBtn"
+        mat-raised-button
+        color="accent"
+        (click)="createListingForAdmins()"
+      >
+        Add Listing
+      </button>
+      <button
+        style="margin-left: 2vw"
+        class="createBtn"
+        type="button"
+        class="btn btn-dark"
+        (click)="showYourListings()"
+      >
+        View Your Listings
+      </button>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="showBookings()">
+      Booked Listings
     </button>
   </div>
   <h1>Welcome {{ user["getUser"].username }}</h1>
 
-  <h2>Listings Available</h2>
-
-  <table mat-table class="mat-elevation-z8">
+  <h2 style="color: red">All Listings Available</h2>
+  <button type="button" class="btn btn-outline-info" (click)="refresh()">
+    Refresh List
+  </button>
+  <table style="margin-top: 1vh" mat-table class="mat-elevation-z8">
     <thead>
       <tr>
-        <th mat-sort-header sortActionDescription="Sort by name">Title</th>
+        <th>Title</th>
         <th>Description</th>
         <th>City</th>
         <th>Price</th>
@@ -50,6 +75,7 @@
 
 <div class="bookingInput" *ngIf="displayBookinInput">
   <h1>Select Start And End date for your booking</h1>
+
   <input
     matInput
     [matDatepicker]="picker"
@@ -83,10 +109,7 @@
 
 <div *ngIf="showAddListing">
   <h1>Create New Listing</h1>
-  <form
-    #listingForm="ngForm"
-    (ngSubmit)="onSubmitListingForm(listingForm.value)"
-  >
+  <form #listingForm="ngForm" (ngSubmit)="onSubmitListingForm()">
     <input
       id="listing_title"
       name="listing_title"
@@ -163,4 +186,86 @@
       Back
     </button>
   </form>
+</div>
+
+<div *ngIf="displayBookedListingComp" class="bookedListingsComp">
+  <h1 style="margin-top: 5vh">Already Booked Listings</h1>
+  <button
+    style="margin-top: 10vh"
+    type="button"
+    class="btn btn-outline-info"
+    (click)="refresh()"
+  >
+    Refresh List
+  </button>
+  <table style="margin-top: 1vh" mat-table class="mat-elevation-z8">
+    <thead>
+      <tr>
+        <th style="background-color: blueviolet">Title</th>
+        <th style="background-color: blueviolet">Booked by</th>
+        <th style="background-color: blueviolet">Price</th>
+        <th style="background-color: blueviolet">Email</th>
+        <th style="background-color: blueviolet">Booking Start Date</th>
+        <th style="background-color: blueviolet">Booking End Date</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let bookedListing of bookedListings['bookings']">
+      <tr key="bookedListing._id">
+        <td>{{ bookedListing.listing_id.listing_title }}</td>
+        <td>{{ bookedListing.username.username }}</td>
+        <td>{{ bookedListing.listing_id.price }}</td>
+        <td>{{ bookedListing.username.email }}</td>
+        <td>{{ bookedListing.booking_start }}</td>
+        <td>{{ bookedListing.booking_end }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button
+    style="margin-top: 1vh"
+    mat-raised-button
+    color="warn"
+    (click)="goBack()"
+  >
+    Back
+  </button>
+</div>
+
+<div class="yourListingsComp" *ngIf="displayYourListings">
+  <h1 style="margin-top: 5vh">Listings Added by You</h1>
+
+  <button
+    style="margin-top: 10vh"
+    type="button"
+    class="btn btn-outline-info"
+    (click)="refresh()"
+  >
+    Refresh List
+  </button>
+  <table style="margin-top: 2vh" mat-table class="mat-elevation-z8">
+    <thead>
+      <tr>
+        <th style="background-color: blueviolet">Title</th>
+        <th style="background-color: blueviolet">Added by</th>
+        <th style="background-color: blueviolet">Price</th>
+        <th style="background-color: blueviolet">Email</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let listing of user['getUser'].createdListings">
+      <tr key="listing._id">
+        <td>{{ listing.listing_title }}</td>
+        <td>{{ user["getUser"].username }}</td>
+        <td>{{ listing.price }}</td>
+        <td>{{ listing.email }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <button
+    style="margin-top: 2vh"
+    mat-raised-button
+    color="warn"
+    (click)="goBack()"
+  >
+    Back
+  </button>
 </div>
