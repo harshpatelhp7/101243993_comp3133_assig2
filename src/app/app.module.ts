@@ -40,7 +40,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
           cache: new InMemoryCache(),
           link: httpLink.create({
             //replace your graphql url http://localhost:3000/graphql
-            uri: 'http://localhost:3000/graphql',
+            uri: 'https://property-listings-backend.herokuapp.com/graphql',
           }),
         };
       },
