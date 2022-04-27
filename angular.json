@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "week12_angular_apollo_graphql": {
+    "property-listings-website": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/week12_angular_apollo_graphql",
+            "outputPath": "dist/property-listings-website",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "week12_angular_apollo_graphql:build:production"
+              "browserTarget": "property-listings-website:build:production"
             },
             "development": {
-              "browserTarget": "week12_angular_apollo_graphql:build:development"
+              "browserTarget": "property-listings-website:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "week12_angular_apollo_graphql:build"
+            "browserTarget": "property-listings-website:build"
           }
         },
         "test": {
@@ -98,5 +98,5 @@
       }
     }
   },
-  "defaultProject": "week12_angular_apollo_graphql"
+  "defaultProject": "property-listings-website"
 }
